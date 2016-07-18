@@ -9,7 +9,13 @@ let rename = require("gulp-rename");
 
 const config = {
   entryPoint: "index.scss",
-  sources: ["index.scss"],
+  sources: [
+    "index.scss",
+    "app/components/**/*.scss"
+  ],
+  includePaths: [
+    "app/components"
+  ],
   target: {
     directory: "app/assets/stylesheets",
     filename: "application.css"
@@ -24,7 +30,7 @@ gulp.task("watch", () => {
 gulp.task("compile", () => gulp.
   src(config.entryPoint).
   pipe(sourcemaps.init()).
-  pipe(sass().on("error", sass.logError)).
+  pipe(sass({ includePaths: config.includePaths }).on("error", sass.logError)).
   pipe(prefix(config.prefixes)).
   pipe(rename(config.target.filename)).
   pipe(sourcemaps.write()).
