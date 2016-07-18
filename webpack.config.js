@@ -10,7 +10,10 @@ module.exports = {
     filename: "application.js"
   },
   resolve: {
-    root: path.resolve("./node_modules")
+    root: [
+      path.resolve("./node_modules"),
+      path.resolve("./app/components")
+    ]
   },
   module: {
     loaders: [{
