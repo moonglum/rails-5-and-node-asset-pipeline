@@ -7,7 +7,9 @@
     "compile-css": "gulp --gulpfile gulpfile.styles.js compile",
     "test": "eslint --cache *.js src && echo ✓"
   },
-  "dependencies": {},
+  "dependencies": {
+    "jquery": "^3.1.0"
+  },
   "devDependencies": {
     "babel-core": "^6.7.6",
     "babel-loader": "^6.2.4",

@@ -1,4 +1,7 @@
 import { square } from "fancy/fancy"
+import $ from 'jquery';
 
-console.log("HI")
-console.log(square(3))
+$(function() {
+  console.log("HI")
+  console.log(square(3))
+})

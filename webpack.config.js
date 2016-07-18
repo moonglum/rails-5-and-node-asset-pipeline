@@ -13,7 +13,10 @@ module.exports = {
     root: [
       path.resolve("./node_modules"),
       path.resolve("./app/components")
-    ]
+    ],
+    alias: {
+      jquery: "jquery/src/jquery"
+    }
   },
   module: {
     loaders: [{
