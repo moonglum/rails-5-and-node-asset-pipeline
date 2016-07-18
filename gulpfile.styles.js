@@ -14,7 +14,8 @@ const config = {
     "app/components/**/*.scss"
   ],
   includePaths: [
-    "app/components"
+    "app/components",
+    "node_modules"
   ],
   target: {
     directory: "app/assets/stylesheets",
