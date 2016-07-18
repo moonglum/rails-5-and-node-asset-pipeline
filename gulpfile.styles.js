@@ -9,7 +9,7 @@ let rename = require("gulp-rename");
 
 const config = {
   entryPoint: "index.scss",
-  // sources: ["src/styles/**/*.scss"],
+  sources: ["index.scss"],
   target: {
     directory: "app/assets/stylesheets",
     filename: "application.css"
