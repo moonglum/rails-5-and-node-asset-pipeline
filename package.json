@@ -5,7 +5,7 @@
     "compile-js": "webpack",
     "watch-css": "gulp --gulpfile gulpfile.styles.js watch",
     "compile-css": "gulp --gulpfile gulpfile.styles.js compile",
-    "test": "eslint --cache *.js src && echo ✓"
+    "test": "eslint --cache index.js app/components/**/*.js && echo ✓"
   },
   "dependencies": {
     "jquery": "^3.1.0"
