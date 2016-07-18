@@ -23,3 +23,7 @@
 # JavaScript
 /node_modules
 /.eslintcache
+
+# Ignore generated files
+/app/assets/stylesheets/application.css
+/app/assets/javascripts/application.js
