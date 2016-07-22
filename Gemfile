@@ -9,6 +9,8 @@ gem 'sqlite3'
 gem 'puma', '~> 3.0'
 # Use foreman for process management
 gem 'foreman'
+# Use an external asset pipeline
+gem 'rails_external_asset_pipeline'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
