@@ -1,11 +1,22 @@
-# Be sure to restart your server when you modify this file.
+# TODO: I should be in a Railtie, but this is prototyping, you know?
+module ActionView
+  module Helpers
+    TYPES_WITH_MANIFEST = %i(stylesheet javascript image)
 
-# Version of your assets, change this if you want to expire all your assets.
-Rails.application.config.assets.version = '1.0'
+    def compute_asset_path(source, options = {})
+      if TYPES_WITH_MANIFEST.include? options[:type]
+        manifest = manifest_file_for_type(options[:type])
+        manifest.fetch(source)
+      else
+        dir = ASSET_PUBLIC_DIRECTORIES[options[:type]] || ""
+        File.join(dir, source)
+      end
+    end
 
-# Add additional assets to the asset load path
-# Rails.application.config.assets.paths << Emoji.images_path
+    private
 
-# Precompile additional assets.
-# application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-# Rails.application.config.assets.precompile += %w( search.js )
+    def manifest_file_for_type(type)
+      JSON.parse(File.read("public/assets/manifests/#{type}.json"))
+    end
+  end
+end

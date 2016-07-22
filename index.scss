@@ -1,14 +1,6 @@
 @import "bootstrap/scss/bootstrap";
 @import "fancy/fancy";
 
-// This has to be synchronized with the Rails config
-$asset-base-path: "/assets/";
-
-// Helper
-@function asset-url($file) {
-  @return url($asset-base-path + $file);
-}
-
 body {
   @extend %fancy;
 }
