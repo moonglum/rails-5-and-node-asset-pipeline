@@ -10,6 +10,15 @@ const hasher = require('gulp-hasher')
 const path = require('path')
 const fs = require('fs')
 const SassString = require('node-sass').types.String
+const url = require('url')
+
+const readConfig = (configName) => {
+  const file = fs.readFileSync(
+    path.join(__dirname, 'package.json')
+  )
+  const parsedFile = JSON.parse(file)
+  return parsedFile[configName]
+}
 
 const calculateAssetMap = (hashes) => {
   return Object.keys(hashes).reduce((mapping, fullPath) => {
@@ -20,10 +29,21 @@ const calculateAssetMap = (hashes) => {
   }, {})
 }
 
+const buildUrl = (baseUrl, asset) => {
+  return url.format({
+    protocol: baseUrl.protocol,
+    auth: baseUrl.auth,
+    host: baseUrl.host,
+    pathname: `${baseUrl.pathname}/${asset}`,
+    search: baseUrl.search,
+    hash: baseUrl.hash
+  })
+}
+
 const addPathToAssetMap = (type, assetMap) => {
   return Object.keys(assetMap).reduce((mapping, origin) => {
     const destination = assetMap[origin]
-    mapping[origin] = `/assets/${type}/${destination}`
+    mapping[origin] = buildUrl(baseUrls[type], destination)
     return mapping
   }, {})
 }
@@ -34,15 +54,15 @@ const renameFilesAccordingToMap = (assetMap, path) => {
   return path
 }
 
-const writeAssetMap = (assetMap, filename) => {
+const writeAssetMap = (assetMap, type) => {
   fs.writeFileSync(
-    path.join(__dirname, 'public', 'assets', 'manifests', filename),
+    manifests[type],
     JSON.stringify(assetMap))
 }
 
 const readAssetMap = (type, done) => {
   fs.readFile(
-    path.join(__dirname, 'public', 'assets', 'manifests', `${type}.json`),
+    manifests[type],
     (err, file) => {
       if (err) {
         done(err)
@@ -53,21 +73,17 @@ const readAssetMap = (type, done) => {
   )
 }
 
-const cssConfig = {
-  entryPoint: 'index.scss',
-  sources: [
-    'index.scss',
-    'app/components/**/*.scss'
-  ],
-  includePaths: [
-    'app/components',
-    'node_modules'
-  ],
-  target: {
-    directory: 'public/assets/stylesheets',
-    filename: 'application.css'
-  },
-  prefixes: 'last 2 versions'
+const cssConfig = readConfig('cssConfig')
+const imagesConfig = readConfig('imagesConfig')
+
+const baseUrls = {
+  stylesheets: url.parse(cssConfig.baseUrl),
+  images: url.parse(imagesConfig.baseUrl)
+}
+
+const manifests = {
+  stylesheets: cssConfig.manifest,
+  images: imagesConfig.manifest
 }
 
 const sassOptions = {
@@ -75,7 +91,7 @@ const sassOptions = {
 
   functions: {
     'asset-url($file)': (file, done) => {
-      readAssetMap('image', (err, assetMap) => {
+      readAssetMap('images', (err, assetMap) => {
         if (err) {
           throw err
         }
@@ -102,17 +118,8 @@ gulp.task('compile-css', () => gulp
   .pipe(rename((path) => renameFilesAccordingToMap(calculateAssetMap(hasher.hashes), path)))
   .pipe(sourcemaps.write())
   .pipe(gulp.dest(cssConfig.target.directory))
-  .on('end', () => writeAssetMap(addPathToAssetMap('stylesheets', calculateAssetMap(hasher.hashes)), 'stylesheet.json'))
+  .on('end', () => writeAssetMap(addPathToAssetMap('stylesheets', calculateAssetMap(hasher.hashes)), 'stylesheets'))
 )
-
-const imagesConfig = {
-  sources: [
-    'app/assets/images'
-  ],
-  target: {
-    directory: 'public/assets/images'
-  }
-}
 
 gulp.task('watch-images', () => {
   gulp.watch(imagesConfig.sources, ['compile-images'])
@@ -123,5 +130,5 @@ gulp.task('compile-images', () => gulp
   .pipe(hasher())
   .pipe(rename((path) => renameFilesAccordingToMap(calculateAssetMap(hasher.hashes), path)))
   .pipe(gulp.dest(imagesConfig.target.directory))
-  .on('end', () => writeAssetMap(addPathToAssetMap('images', calculateAssetMap(hasher.hashes)), 'image.json'))
+  .on('end', () => writeAssetMap(addPathToAssetMap('images', calculateAssetMap(hasher.hashes)), 'images'))
 )

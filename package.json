@@ -29,5 +29,51 @@
     "gulp-sourcemaps": "^1.6.0",
     "npm-run-all": "^1.7.0",
     "webpack": "^1.12.15"
+  },
+  "cssConfig": {
+    "entryPoint": "index.scss",
+    "sources": [
+      "index.scss",
+      "app/components/**/*.scss"
+    ],
+    "includePaths": [
+      "app/components",
+      "node_modules"
+    ],
+    "target": {
+      "directory": "public/assets/stylesheets",
+      "filename": "application.css"
+    },
+    "prefixes": "last 2 versions",
+    "manifest": "public/assets/manifests/stylesheet.json",
+    "baseUrl": "/assets/stylesheets"
+  },
+  "imagesConfig": {
+    "sources": [
+      "app/assets/images"
+    ],
+    "target": {
+      "directory": "public/assets/images"
+    },
+    "manifest": "public/assets/manifests/image.json",
+    "baseUrl": "/assets/images"
+  },
+  "jsConfig": {
+    "entryPoints": {
+      "application": "./index.js"
+    },
+    "target": {
+      "directory": "public/assets/javascripts",
+      "filename": "[name]-[hash].js"
+    },
+    "includePaths": [
+      "app/components",
+      "node_modules"
+    ],
+    "manifest": "public/assets/manifests/javascript.json",
+    "baseUrl": "/assets/javascripts",
+    "alias": {
+      "jquery": "jquery/src/jquery"
+    }
   }
 }
