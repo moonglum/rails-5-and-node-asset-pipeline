@@ -1,12 +1,11 @@
 {
   "scripts": {
-    "start": "npm-run-all --parallel watch-css watch-js",
-    "watch-js": "webpack --progress --colors --watch",
-    "compile-js": "webpack",
-    "watch-css": "gulp watch-css",
-    "compile-css": "gulp compile-css",
-    "watch-images": "gulp watch-images",
-    "compile-images": "gulp compile-images",
+    "compile-js": "compile-js",
+    "watch-js": "compile-js --watch",
+    "compile-css": "compile-css",
+    "watch-css": "compile-css --watch",
+    "compile-images": "compile-images",
+    "watch-images": "compile-images --watch",
     "test": "eslint --cache index.js app/components/**/*.js && echo ✓"
   },
   "dependencies": {
@@ -14,24 +13,16 @@
     "jquery": "^3.1.0"
   },
   "devDependencies": {
-    "babel-core": "^6.7.6",
-    "babel-loader": "^6.2.4",
-    "babel-preset-es2015": "^6.6.0",
-    "eslint": "^2.7.0",
-    "eslint-config-standard": "^5.1.0",
-    "eslint-plugin-promise": "^1.1.0",
-    "eslint-plugin-standard": "^1.3.2",
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^3.1.0",
-    "gulp-hasher": "^0.1.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-sass": "^2.2.0",
-    "gulp-sourcemaps": "^1.6.0",
-    "npm-run-all": "^1.7.0",
-    "webpack": "^1.12.15"
+    "asset-pipeline": "github:fejo-dk/asset-pipeline"
   },
   "cssConfig": {
-    "entryPoint": "index.scss",
+    "entryPoints": {
+      "application": "./index.scss",
+      "backend": "./index2.scss"
+    },
+    "target": {
+      "directory": "public/assets/stylesheets"
+    },
     "sources": [
       "index.scss",
       "app/components/**/*.scss"
@@ -40,10 +31,6 @@
       "app/components",
       "node_modules"
     ],
-    "target": {
-      "directory": "public/assets/stylesheets",
-      "filename": "application.css"
-    },
     "prefixes": "last 2 versions",
     "manifest": "public/assets/manifests/stylesheet.json",
     "baseUrl": "/assets/stylesheets"
@@ -60,11 +47,11 @@
   },
   "jsConfig": {
     "entryPoints": {
-      "application": "./index.js"
+      "application": "./index.js",
+      "backend": "./index2.js"
     },
     "target": {
-      "directory": "public/assets/javascripts",
-      "filename": "[name]-[hash].js"
+      "directory": "public/assets/javascripts"
     },
     "includePaths": [
       "app/components",
