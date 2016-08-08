@@ -6,6 +6,8 @@
     "watch-css": "compile-css --watch",
     "compile-images": "compile-images",
     "watch-images": "compile-images --watch",
+    "compile-fonts": "compile-fonts",
+    "watch-fonts": "compile-fonts --watch",
     "test": "eslint --cache index.js app/components/**/*.js && echo ✓"
   },
   "dependencies": {
@@ -44,6 +46,16 @@
     },
     "manifest": "public/assets/manifests/image.json",
     "baseUrl": "/assets/images"
+  },
+  "fontsConfig": {
+    "sources": [
+      "app/assets/fonts"
+    ],
+    "target": {
+      "directory": "public/assets/fonts"
+    },
+    "manifest": "public/assets/manifests/font.json",
+    "baseUrl": "/assets/fonts"
   },
   "jsConfig": {
     "entryPoints": {
