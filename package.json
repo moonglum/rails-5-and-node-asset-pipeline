@@ -39,7 +39,7 @@
   },
   "imagesConfig": {
     "sources": [
-      "app/assets/images"
+      "app/assets/images/*"
     ],
     "target": {
       "directory": "public/assets/images"
@@ -49,7 +49,7 @@
   },
   "fontsConfig": {
     "sources": [
-      "app/assets/fonts"
+      "app/assets/fonts/*"
     ],
     "target": {
       "directory": "public/assets/fonts"
